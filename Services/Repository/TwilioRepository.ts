@@ -36,7 +36,7 @@ export default class TwilioRepository implements TwilioInterface {
 
     async send(to,message){
        
-        await client.messages
+        return await client.messages
         .create({
             body: message,
             from: process.env.TWILIO_FROM,
@@ -48,6 +48,5 @@ export default class TwilioRepository implements TwilioInterface {
             console.log(err)
             return false
         }); 
-        return true
     }
 }

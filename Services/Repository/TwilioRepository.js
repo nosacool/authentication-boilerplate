@@ -94,9 +94,7 @@ var TwilioRepository = /** @class */ (function () {
                             console.log(err);
                             return false;
                         })];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, true];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
