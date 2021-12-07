@@ -55,8 +55,10 @@ var User = require("../../app/Models/User");
 var BaseRepository_1 = require("./BaseRepository");
 var UserRepository = /** @class */ (function (_super) {
     __extends(UserRepository, _super);
-    function UserRepository(model) {
-        return _super.call(this, model) || this;
+    function UserRepository() {
+        var _this = _super.call(this, User) || this;
+        _this.model = User;
+        return _this;
     }
     UserRepository.prototype.create = function (data) {
         return __awaiter(this, void 0, void 0, function () {
@@ -65,7 +67,7 @@ var UserRepository = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, User.create(data)];
+                        return [4 /*yield*/, this.model.create(data)];
                     case 1:
                         user = _a.sent();
                         return [2 /*return*/, user];

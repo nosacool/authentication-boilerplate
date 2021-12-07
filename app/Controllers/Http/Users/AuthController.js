@@ -162,6 +162,49 @@ class AuthController extends BaseController {
 
 
     }
+
+    async sendEmailOtp({request,response}){
+        const rules = {
+            email: 'required|email'
+        }
+
+        const validation = await validateAll(request.all(),rules)
+
+        if(validation.fails()){
+            return await this.sendError(this.validation_error,validation.messages(),422,{response})
+        }
+
+        const user = await this.userRepository.findOneBy('email',request.input('email'))
+        if(user){
+            const otp = Math.floor(100000 + Math.random() * 900000)
+            const userJson = user.toJSON()
+            const key = user.email+':otp'
+            Redis.set(key, otp)
+            Redis.expire(key,600)
+
+            const otpInfo = {
+                otp:otp
+            }
+
+            return await Mail.send('emails.resetPassword', {userJson,otpInfo}, (message) => {
+                message
+                  .to(user.email)
+                  .from(Env.get('MAIL_FROM'))
+                  .subject('Reset Password')
+
+              }).then((result) => {
+                console.log(result)
+                return true
+            }).catch((err)=>{
+                  console.log(err)
+                  return false
+            })
+
+        }
+        else{
+            console.log('none found')
+        }
+    }
 }
 
 module.exports = AuthController

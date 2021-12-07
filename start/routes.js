@@ -23,9 +23,16 @@ Route.group( function() {
     Route.post('login','AuthController.login')
     Route.post('logout','AuthController.logout').middleware(['auth'])
     Route.post('refreshToken', 'AuthController.refreshToken')  
-}).prefix('/users').namespace('Users')
+    Route.post('requestt','AuthController.sendEmailOtp')
+}).prefix('users').namespace('Users')
 Route.group(function() {
     
     Route.post('send', 'AuthController.sendOtp')
-    Route.post('verify','AuthController.verifyOtp')
+    Route.post('verify','AuthController.verifyOtp') 
 }).prefix('otp').namespace('Users')
+
+Route.group(function() {
+    Route.post('request','ResetPasswordController.sendEmailOtp')
+    Route.post('verifyOtp', 'ResetPasswordController.verifyEmailOtp')
+    Route.post('reset', 'ResetPasswordController.resetPassword')
+}).prefix('users/password').namespace('Users')
