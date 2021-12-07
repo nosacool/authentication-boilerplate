@@ -30,6 +30,7 @@ class ResetPasswordController extends BaseController {
 
         const user = await this.userRepository.findOneBy('email',request.input('email'))
         if(user){
+            console.log(user)
             const otp = Math.floor(100000 + Math.random() * 900000)
             const userJson = user.toJSON()
             const key = user.email+':otp'
@@ -97,11 +98,14 @@ class ResetPasswordController extends BaseController {
         }
 
         const key = request.input('email')+':otp'
-        if(Redis.get(key) == 'Verified'){
-            const user = this.UserRepository.findOneBy('email',request.input('email'))
+        const value = await Redis.get(key)
+        console.log(value)
+        if(value == 'Verified'){
+            const user = await this.userRepository.findOneBy('email',request.input('email'))
             if(user){
                 user.password = request.input('password')
-                user.save()
+                console.log(user.toJSON())
+                await user.save()
                 return true
             }
             else{

@@ -8,10 +8,6 @@ export default class BaseRepository implements BaseInterface{
     constructor(model : typeof Model){
         this.model = model;
       }
-    async findOneBy(string: String, data: String) {
-      return await this.model.where(string,data).first()
-      
-    }
     
     async find(id:number){
       return await this.model.find(id)

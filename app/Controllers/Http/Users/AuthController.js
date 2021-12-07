@@ -1,6 +1,7 @@
 'use strict'
 
-const { default: TwilioRepository } = require("../../../../Services/Repository/TwilioRepository")
+const { default: SmsOtpRepository } = require("../../../../Services/Repository/SmsOtpRepository")
+//const { default: TwilioRepository } = require("../../../../Services/Repository/TwilioRepository")
 const { default: UserRepository } = require("../../../../Services/Repository/UserRepository")
 const BaseController = require("../BaseController")
 const { validateAll } = use('Validator')
@@ -13,7 +14,7 @@ class AuthController extends BaseController {
     constructor(){
         super()
         this.userRepository = new UserRepository
-        this.otpRepository = new TwilioRepository
+        this.smsOtpRepository = new SmsOtpRepository
     }
 
     async register({request,response}){
@@ -115,15 +116,11 @@ class AuthController extends BaseController {
         if (validation.fails()) {
             return await this.sendError(this.validation_error,validation.messages(),422,{response})
         }
-        const otpToken = Math.random().toString(20).substr(2, 6)
-        const otp = Math.floor(100000 + Math.random() * 900000)
-        const redisKey = request.input('phone')+':'+otpToken
-        console.log(redisKey)
-        Redis.set(redisKey,otp)
-        Redis.expire(redisKey,400)
-        if(await this.otpRepository.send(request.input('phone'),otp)){
+        
+        const sendOtp = await this.smsOtpRepository.setAndSendOtp(request.input('phone'))
+        if(sendOtp.status) {
             return this.sendResponse(this.success,{
-                otp_token:otpToken
+                otp_token:sendOtp.otpToken
             },{response})
         }
         else{
@@ -148,8 +145,8 @@ class AuthController extends BaseController {
         const phone = request.input('phone')
         const otp = request.input('otp')
 
-        const verifyOtp = await this.otpRepository.verifyOtp(otpToken,otp,phone)
-        if(verifyOtp.status == true){
+        const verifyOtps = await this.smsOtpRepository.verifyOtp(otpToken,otp,phone)
+        if(verifyOtps.status == true){
             return this.sendResponse(this.success,null,{response})
         }
         else{

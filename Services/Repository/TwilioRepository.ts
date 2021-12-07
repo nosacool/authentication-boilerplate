@@ -1,12 +1,12 @@
-import TwilioInterface from "../Interfaces/Twilio.Interface";
+import MessagingInterface from "../Interfaces/Messaging.Interface";
 //import client = require('twilio')(accountSid, authToken);
 
 
 const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 const Redis = use('Redis')
 
-export default class TwilioRepository implements TwilioInterface {
-    async verifyOtp(otpToken: string, otp: Number, phoneNumber: Number) {
+export default class TwilioRepository implements MessagingInterface {
+    /*async verifyOtp(otpToken: string, otp: Number, phoneNumber: Number) {
 
         const otpReal = await Redis.get(phoneNumber+':'+otpToken)
         if(otpReal){
@@ -32,7 +32,7 @@ export default class TwilioRepository implements TwilioInterface {
                 message: 'Expired Otp'
             }
         }
-    }
+    }*/
 
     async send(to,message){
        

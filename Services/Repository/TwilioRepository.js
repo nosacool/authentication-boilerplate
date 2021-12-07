@@ -42,42 +42,33 @@ var Redis = use('Redis');
 var TwilioRepository = /** @class */ (function () {
     function TwilioRepository() {
     }
-    TwilioRepository.prototype.verifyOtp = function (otpToken, otp, phoneNumber) {
-        return __awaiter(this, void 0, void 0, function () {
-            var otpReal;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, Redis.get(phoneNumber + ':' + otpToken)];
-                    case 1:
-                        otpReal = _a.sent();
-                        if (otpReal) {
-                            console.log(otp);
-                            console.log(otpReal);
-                            if (otpReal == otp) {
-                                Redis.set(phoneNumber + ':' + otpToken, 'verified');
-                                Redis.expire(phoneNumber + ':' + otpToken, 600);
-                                return [2 /*return*/, {
-                                        status: true
-                                    }];
-                            }
-                            else {
-                                return [2 /*return*/, {
-                                        status: false,
-                                        message: 'Incorrect Otp'
-                                    }];
-                            }
-                        }
-                        else {
-                            return [2 /*return*/, {
-                                    status: false,
-                                    message: 'Expired Otp'
-                                }];
-                        }
-                        return [2 /*return*/];
+    /*async verifyOtp(otpToken: string, otp: Number, phoneNumber: Number) {
+
+        const otpReal = await Redis.get(phoneNumber+':'+otpToken)
+        if(otpReal){
+            console.log(otp)
+            console.log(otpReal)
+            if(otpReal == otp){
+                Redis.set(phoneNumber+':'+otpToken,'verified')
+                Redis.expire(phoneNumber+':'+otpToken,600)
+                return {
+                    status:true
                 }
-            });
-        });
-    };
+            }
+            else{
+                return {
+                    status: false,
+                    message:'Incorrect Otp'
+                }
+            }
+        }
+        else{
+            return {
+                status:false,
+                message: 'Expired Otp'
+            }
+        }
+    }*/
     TwilioRepository.prototype.send = function (to, message) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

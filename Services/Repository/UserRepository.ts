@@ -18,6 +18,10 @@ export default class UserRepository extends BaseRepository implements UserInterf
         }
     }
 
+    async findOneBy(string: String, data: String):Promise<User> {
+        return await this.model.where(string).eq(data).first()
+      }
+
     
 
     

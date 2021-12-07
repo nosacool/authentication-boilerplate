@@ -31,6 +31,7 @@
     "@adonisjs/shield": "^1.0.8",
     "@adonisjs/validator": "^5.1.0",
     "adonis-twilio": "^0.1.0",
+    "africastalking": "^0.5.4",
     "lucid-mongo": "^3.1.6",
     "twilio": "^3.71.2"
   },

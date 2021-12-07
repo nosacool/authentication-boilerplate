@@ -22,8 +22,7 @@ Route.group( function() {
     Route.post('register','AuthController.register')
     Route.post('login','AuthController.login')
     Route.post('logout','AuthController.logout').middleware(['auth'])
-    Route.post('refreshToken', 'AuthController.refreshToken')  
-    Route.post('requestt','AuthController.sendEmailOtp')
+    Route.post('refreshToken', 'AuthController.refreshToken')
 }).prefix('users').namespace('Users')
 Route.group(function() {
     
