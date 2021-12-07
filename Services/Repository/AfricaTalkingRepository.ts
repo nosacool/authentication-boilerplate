@@ -1,11 +1,12 @@
-import MessagingInterface from "../Interfaces/Messaging.Interface";
 
+import MessagingInterface from "../Interfaces/Messaging.Interface";
 const credentials = {
-    apiKey: 'c13ab20f6d412a1e78e82bb9b0a8cf9d347a0677a0c7a4f7107dcd72246f5df8',
+    apiKey: process.env.AFRICATALKING_APIKEY,
     username: 'docApp',
 }
 
 const AfricasTalking = require('africastalking')(credentials)
+
 
 
 export default class AfricaTalkingRepository implements MessagingInterface{
